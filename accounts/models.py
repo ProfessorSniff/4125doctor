@@ -21,3 +21,8 @@ class CustomUser(AbstractUser):
     @property
     def is_doctor(self):
         return self.groups.filter(name='Doctor').exists()
+    
+    @property
+    def display_name(self):
+        # not sure if this is really smart or really not
+        return " ".join(filter(None, [self.first_name, self.last_name])) or self.username 
