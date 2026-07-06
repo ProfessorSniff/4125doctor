@@ -25,6 +25,7 @@ class MedicalRecord(models.Model):
     patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='medical_records')
     doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctor_medical_records', limit_choices_to={'is_doctor': True})
     date_time = models.DateTimeField(auto_now_add=True)
+    date_time_updated = models.DateTimeField(auto_now=True)
     record = models.TextField(blank=True)
     
     def __str__(self):

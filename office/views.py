@@ -90,3 +90,15 @@ def update_appointment(request, appointment_id):
     
     return render(request, 'office/update_appointment.html', {'form': form, 'appointment': appointment})
 
+@login_required
+@user_passes_test(is_doctor, login_url='/unauthorized/')
+def update_medical_record(request, record_id):
+    record = get_object_or_404(MedicalRecord, id=record_id)
+    if request.method != 'POST':
+        form = MedicalRecordForm(instance=record)
+    else:
+        form = MedicalRecordForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard_doctor')
+    return render(request, 'office/update_medical_record.html', {'form': form, 'record': record})
