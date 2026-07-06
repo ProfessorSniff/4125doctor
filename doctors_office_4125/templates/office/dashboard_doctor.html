@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Doctor Dashboard{% endblock %}
+
+{% block content %}
+    <h2>Doctor Dashboard</h2>
+
+    <div>
+        <a href="{% url 'create_appointment' %}"><button>Create Appointment</button></a>
+        <a href="{% url 'create_medical_record' %}"><button>Create Medical Record</button></a>
+        <a href="{% url 'list_appointments_office' %}"><button>View All Clinic Appointments</button></a>
+    </div>
+    
+    <hr>
+
+    <h3>Appointments (Assigned to Me)</h3>
+    {% for appt in doctor_appointments %}
+        <div class="card">
+            <p><strong>Patient:</strong> {{ appt.patient.username }}</p>
+            <p><strong>Date & Time:</strong> {{ appt.date_time }}</p>
+            <p><strong>Status:</strong> {{ appt.status }}</p>
+            <a href="{% url 'update_appointment' appt.id %}">Edit</a> | 
+            <a href="{% url 'delete_appointment' appt.id %}" style="color: red;">Cancel</a>
+        </div>
+    {% empty %}
+        <p>No appointments assigned to you.</p>
+    {% endfor %}
+
+    <h3>Records (Written by Me)</h3>
+    {% for record in doctor_medical_records %}
+        <div class="card">
+            <p><strong>Patient:</strong> {{ record.patient.username }}</p>
+            <p><strong>Notes:</strong> {{ record.record|truncatewords:20 }}</p>
+            <a href="{% url 'update_medical_record' record.id %}">Edit</a> | 
+            <a href="{% url 'delete_medical_record' record.id %}" style="color: red;">Delete</a>
+        </div>
+    {% empty %}
+        <p>You have not written any medical records yet.</p>
+    {% endfor %}
+
+{% endblock content %}

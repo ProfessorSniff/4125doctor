@@ -121,3 +121,9 @@ STATIC_URL = 'static/'
 
 # custom usermodel
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# Static files (CSS, Images)
+# https://docs.djangoproject.com/en/6.0/howto/static-files/
+STATICFILES_DIRS = [
+    BASE_DIR / "doctors_office_4125/static"
+]

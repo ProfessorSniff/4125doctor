@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Appointment{% endblock %}
+
+{% block content %}
+    <h2>Update Appointment for {{ appointment.patient.username }}</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+        <a href="{% url 'dashboard_doctor' %}">Cancel</a>
+    </form>
+{% endblock content %}

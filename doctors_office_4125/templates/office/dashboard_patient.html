@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Patient Dashboard{% endblock %}
+
+{% block content %}
+    <h2>My Patient Dashboard</h2>
+    
+    <a href="{% url 'book_appointment' %}"><button>Book New Appointment</button></a>
+    
+    <hr>
+
+    <h3>My Appointments</h3>
+    {% for appt in patient_appointments %}
+        <div class="card">
+            <p><strong>Date & Time:</strong> {{ appt.date_time }}</p>
+            <p><strong>Doctor:</strong> {{ appt.doctor.get_full_name|default:appt.doctor.username }}</p>
+            <p><strong>Status:</strong> {{ appt.status }}</p>
+            <p><strong>Reason:</strong> {{ appt.reason_for_visit }}</p>
+        </div>
+    {% empty %}
+        <p>You have no appointments scheduled.</p>
+    {% endfor %}
+
+    <h3>My Medical Records</h3>
+    {% for record in patient_medical_records %}
+        <div class="card">
+            <p><strong>Doctor:</strong> {{ record.doctor.get_full_name|default:record.doctor.username }}</p>
+            <p><strong>Notes:</strong> {{ record.record }}</p>
+            <small>Added on: {{ record.created_at|date:"M d, Y" }}</small> 
+        </div>
+    {% empty %}
+        <p>No medical records found.</p>
+    {% endfor %}
+
+{% endblock content %}

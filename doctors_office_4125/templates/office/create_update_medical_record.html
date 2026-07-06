@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Medical Record{% endblock %}
+
+{% block content %}
+    <h2>Medical Record</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Record</button>
+        <a href="{% url 'dashboard_doctor' %}">Cancel</a>
+    </form>
+{% endblock content %}
