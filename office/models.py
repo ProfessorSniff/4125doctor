@@ -19,7 +19,7 @@ class Appointment(models.Model):
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='pending')
     
     def __str__(self):
-        return f"{self.patient.display_name} {_("with")} {self.doctor.display_name or _('(no doctor assigned)')}  {self.date_time.strftime('%Y-%m-%d %H:%M')}: {self.status}"
+        return f"{self.patient.display_name} {_("with")} {self.doctor.display_name or _('(no doctor assigned)')}  {self.date_time.strftime('%F %T')}: {self.status}"
     
 class MedicalRecord(models.Model):
     patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='medical_records')
@@ -28,4 +28,4 @@ class MedicalRecord(models.Model):
     record = models.TextField(blank=True)
     
     def __str__(self):
-        return f"{_("Medical Record for")} {self.patient.display_name} {_("by")} {self.doctor.display_name or _('(no doctor assigned)')} {_("at")} {self.date_time.strftime('%Y-%m-%d %H:%M')}"
+        return f"{_("Medical Record for")} {self.patient.display_name} {_("by")} {self.doctor.display_name or _('(no doctor assigned)')} {_("at")} {self.date_time.strftime('%F %T')}"
