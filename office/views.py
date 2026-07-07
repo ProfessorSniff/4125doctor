@@ -71,7 +71,7 @@ def create_medical_record(request):
             medical_record.doctor = request.user
             medical_record.save()
             return redirect('dashboard_doctor')
-    return render(request, 'office/create_medical_record.html', {'form': form})
+    return render(request, 'office/create_update_medical_record.html', {'form': form})
 
 # update
 
@@ -101,4 +101,4 @@ def update_medical_record(request, record_id):
         if form.is_valid():
             form.save()
             return redirect('dashboard_doctor')
-    return render(request, 'office/update_medical_record.html', {'form': form, 'record': record})
+    return render(request, 'office/create_update_medical_record.html', {'form': form, 'record': record})
