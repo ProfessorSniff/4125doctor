@@ -20,6 +20,8 @@ from django.urls import path
 
 from office import views
 
+from django.urls import include
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -52,4 +54,5 @@ urlpatterns = [
         views.update_medical_record,
         name='update_medical_record'
     ),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]

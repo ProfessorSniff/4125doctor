@@ -57,7 +57,7 @@ ROOT_URLCONF = 'doctors_office_4125.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'doctors_office_4125' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

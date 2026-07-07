@@ -1,12 +1,13 @@
 from django.db import models
+from django.db.models import Q
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
 class Appointment(models.Model):
-    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='appointments', limit_choices_to={'is_patient': True})
-    doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='doctor_appointments', limit_choices_to={'is_doctor': True}, blank=True)
+    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='appointments', limit_choices_to=Q(groups__name='Patient'))
+    doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='doctor_appointments', limit_choices_to=Q(groups__name='Doctor'), blank=True)
     date_time = models.DateTimeField()
     reason = models.TextField(blank=True)
     
@@ -23,7 +24,7 @@ class Appointment(models.Model):
     
 class MedicalRecord(models.Model):
     patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='medical_records')
-    doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctor_medical_records', limit_choices_to={'is_doctor': True})
+    doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctor_medical_records', limit_choices_to=Q(groups__name='Doctor'))
     date_time = models.DateTimeField(auto_now_add=True)
     date_time_updated = models.DateTimeField(auto_now=True)
     record = models.TextField(blank=True)
