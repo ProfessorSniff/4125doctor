@@ -6,6 +6,9 @@ from .forms import AppointmentForm, PatientAppointmentForm, MedicalRecordForm
 
 # Create your views here.
 
+def is_doctor(user):
+    return user.groups.filter(name='Doctor').exists()
+
 # read
 
 @login_required

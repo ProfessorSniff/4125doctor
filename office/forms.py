@@ -1,6 +1,6 @@
 from django import forms
 from .models import Appointment, MedicalRecord
-from accounts.models import CustomUser
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 class AppointmentForm(forms.ModelForm):
@@ -21,10 +21,10 @@ class AppointmentForm(forms.ModelForm):
 class PatientAppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
-        fields = ['doctor', 'date_time', 'reason_for_visit']
+        fields = ['doctor', 'date_time', 'reason']
         widgets = {
             'date_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'reason_for_visit': forms.Textarea(attrs={'rows': 4}),
+            'reason': forms.Textarea(attrs={'rows': 4}),
         }
         
     def __init__(self, *args, **kwargs):
