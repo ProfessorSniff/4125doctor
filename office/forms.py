@@ -6,10 +6,10 @@ from django.utils.translation import gettext_lazy as _
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
-        fields = ['patient', 'doctor', 'date_time', 'reason_for_visit', 'status']
+        fields = ['patient', 'doctor', 'date_time', 'reason', 'status']
         widgets = {
             'date_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'reason_for_visit': forms.Textarea(attrs={'rows': 4}),
+            'reason': forms.Textarea(attrs={'rows': 4}),
         }    
         
     def __init__(self, *args, **kwargs):
