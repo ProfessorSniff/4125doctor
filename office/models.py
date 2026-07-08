@@ -7,8 +7,8 @@ from django.utils.translation import gettext_lazy as _
 
 class Appointment(models.Model):
     patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='appointments', limit_choices_to=Q(groups__name='Patient'))
-    doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='doctor_appointments', limit_choices_to=Q(groups__name='Doctor'), blank=True)
-    date_time = models.DateTimeField()
+    doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='doctor_appointments', limit_choices_to=Q(groups__name='Doctor'), blank=True, null=True)
+    date_time = models.DateTimeField(blank=True, null=True)
     reason = models.TextField(blank=True)
     
     STATUS_CHOICES = [

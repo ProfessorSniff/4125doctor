@@ -10,6 +10,8 @@ class AppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ['patient', 'doctor', 'date_time', 'reason', 'status']
         widgets = {
+            'patient': forms.Select(attrs={'class': 'form-control'}),
+            'doctor': forms.Select(attrs={'class': 'form-control'}),
             'date_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'reason': forms.Textarea(attrs={'rows': 4}),
         }    
@@ -25,6 +27,7 @@ class PatientAppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ['doctor', 'date_time', 'reason']
         widgets = {
+            'doctor': forms.Select(attrs={'class': 'form-control'}),
             'date_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'reason': forms.Textarea(attrs={'rows': 4}),
         }

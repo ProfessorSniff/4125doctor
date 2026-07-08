@@ -20,7 +20,6 @@
             <p><strong>Date & Time:</strong> {{ appt.date_time }}</p>
             <p><strong>Status:</strong> {{ appt.status }}</p>
             <a href="{% url 'update_appointment' appt.id %}">Edit</a> | 
-            <a href="{% url 'delete_appointment' appt.id %}" style="color: red;">Cancel</a>
         </div>
     {% empty %}
         <p>No appointments assigned to you.</p>
@@ -32,7 +31,6 @@
             <p><strong>Patient:</strong> {{ record.patient.username }}</p>
             <p><strong>Notes:</strong> {{ record.record|truncatewords:20 }}</p>
             <a href="{% url 'update_medical_record' record.id %}">Edit</a> | 
-            <a href="{% url 'delete_medical_record' record.id %}" style="color: red;">Delete</a>
         </div>
     {% empty %}
         <p>You have not written any medical records yet.</p>

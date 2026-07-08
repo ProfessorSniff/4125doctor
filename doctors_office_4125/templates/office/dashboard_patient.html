@@ -13,7 +13,7 @@
     {% for appt in patient_appointments %}
         <div class="card">
             <p><strong>Date & Time:</strong> {{ appt.date_time }}</p>
-            <p><strong>Doctor:</strong> {{ appt.doctor.get_full_name|default:appt.doctor.username }}</p>
+            <p><strong>Doctor:</strong> {% if appt.doctor %}{{ appt.doctor.get_full_name|default:appt.doctor.username }}{% else %}-{% endif %}</p>
             <p><strong>Status:</strong> {{ appt.status }}</p>
             <p><strong>Reason:</strong> {{ appt.reason_for_visit }}</p>
         </div>
