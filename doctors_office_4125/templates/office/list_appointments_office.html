@@ -4,35 +4,6 @@
 
 {% block content %}
     <h2>All Clinic Appointments</h2>
-    <a href="{% url 'dashboard_doctor' %}">Back to Dashboard</a>
-    <hr>
-    
-    <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; text-align: left; background: white;">
-        <thead>
-            <tr style="background: #e2e2e2;">
-                <th>Patient</th>
-                <th>Doctor</th>
-                <th>Date & Time</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for appt in appointments %}
-            <tr>
-                <td>{{ appt.patient.username }}</td>
-                <td>{{ appt.doctor.username }}</td>
-                <td>{{ appt.date_time }}</td>
-                <td>{{ appt.status }}</td>
-                <td>
-                    <a href="{% url 'update_appointment' appt.id %}">Edit</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5">No appointments found in the system.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    {% include 'office/_appointments_table.html' with appointments=appointments show_patient=True show_doctor=True show_actions=True empty_message='No appointments found in the system.' %}
 {% endblock content %}

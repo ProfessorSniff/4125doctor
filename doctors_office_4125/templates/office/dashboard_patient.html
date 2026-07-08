@@ -10,26 +10,32 @@
     <hr>
 
     <h3>My Appointments</h3>
-    {% for appt in patient_appointments %}
-        <div class="card">
-            <p><strong>Date & Time:</strong> {{ appt.date_time }}</p>
-            <p><strong>Doctor:</strong> {% if appt.doctor %}{{ appt.doctor.get_full_name|default:appt.doctor.username }}{% else %}-{% endif %}</p>
-            <p><strong>Status:</strong> {{ appt.status }}</p>
-            <p><strong>Reason:</strong> {{ appt.reason_for_visit }}</p>
-        </div>
-    {% empty %}
-        <p>You have no appointments scheduled.</p>
-    {% endfor %}
+    {% include 'office/_appointments_table.html' with appointments=patient_appointments show_patient=False show_doctor=True show_actions=False empty_message='You have no appointments scheduled.' %}
 
     <h3>My Medical Records</h3>
-    {% for record in patient_medical_records %}
-        <div class="card">
-            <p><strong>Doctor:</strong> {{ record.doctor.get_full_name|default:record.doctor.username }}</p>
-            <p><strong>Notes:</strong> {{ record.record }}</p>
-            <small>Added on: {{ record.created_at|date:"M d, Y" }}</small> 
-        </div>
-    {% empty %}
-        <p>No medical records found.</p>
-    {% endfor %}
+    <table>
+        <thead>
+        <tr>
+            <th>Doctor</th>
+            <th>Notes</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in doctor_medical_records %}
+        <tr>
+            <td>{{ record.patient.display_name }}</td>
+            <td>{{ record.record|truncatewords:20 }}</td>
+            <td>{{ record.date_time }}</td>
+            <td>{{ record.date_time_updated }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">You do not have any medical records yet.</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock content %}

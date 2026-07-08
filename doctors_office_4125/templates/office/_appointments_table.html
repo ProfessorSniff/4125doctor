@@ -1,0 +1,32 @@
+<table>
+    <thead>
+        <tr>
+            {% if show_patient %}<th>Patient</th>{% endif %}
+            {% if show_doctor %}<th>Doctor</th>{% endif %}
+            <th>Date & Time</th>
+            <th>Status</th>
+            {% if show_actions %}<th>Actions</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for appt in appointments %}
+        <tr>
+            {% if show_patient %}<td>{{ appt.patient.display_name }}</td>{% endif %}
+            {% if show_doctor %}
+                <td>{% if appt.doctor %}{{ appt.doctor.display_name }}{% else %}-{% endif %}</td>
+            {% endif %}
+            <td>{{ appt.date_time }}</td>
+            <td>{{ appt.status }}</td>
+            {% if show_actions %}
+            <td>
+                <a href="{% url 'update_appointment' appt.id %}">Edit</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="{% if show_patient and show_doctor %}5{% elif show_patient or show_doctor %}4{% else %}3{% endif %}">{{ empty_message }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

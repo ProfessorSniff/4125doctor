@@ -10,23 +10,12 @@
         <a href="{% url 'create_medical_record' %}"><button>Create Medical Record</button></a>
         <a href="{% url 'list_appointments_office' %}"><button>View All Clinic Appointments</button></a>
     </div>
-    
-    <hr>
 
     <h3>Appointments (Assigned to Me)</h3>
-    {% for appt in doctor_appointments %}
-        <div class="card">
-            <p><strong>Patient:</strong> {{ appt.patient.username }}</p>
-            <p><strong>Date & Time:</strong> {{ appt.date_time }}</p>
-            <p><strong>Status:</strong> {{ appt.status }}</p>
-            <a href="{% url 'update_appointment' appt.id %}">Edit</a> | 
-        </div>
-    {% empty %}
-        <p>No appointments assigned to you.</p>
-    {% endfor %}
+    {% include 'office/_appointments_table.html' with appointments=doctor_appointments show_patient=True show_doctor=False show_actions=True empty_message='No appointments assigned to you.' %}
 
     <h3>Records (Written by Me)</h3>
-    {% for record in doctor_medical_records %}
+    <!-- {% for record in doctor_medical_records %}
         <div class="card">
             <p><strong>Patient:</strong> {{ record.patient.username }}</p>
             <p><strong>Notes:</strong> {{ record.record|truncatewords:20 }}</p>
@@ -34,6 +23,35 @@
         </div>
     {% empty %}
         <p>You have not written any medical records yet.</p>
-    {% endfor %}
+    {% endfor %} -->
+
+    <table>
+        <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Notes</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in doctor_medical_records %}
+        <tr>
+            <td>{{ record.patient.display_name }}</td>
+            <td>{{ record.record|truncatewords:20 }}</td>
+            <td>{{ record.date_time }}</td>
+            <td>{{ record.date_time_updated }}</td>
+            <td>
+                <a href="{% url 'update_medical_record' record.id %}">Edit</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">You have not written any medical records yet.</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock content %}
