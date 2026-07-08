@@ -21,11 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-*$ma%23rhi-5w=43!04w0j+)s(+&4kcssgo6mb6u&kne969r%j'
+#SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# TODO: security changes in production
 ALLOWED_HOSTS = []
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+#CSRF_COOKIE_SAMESITE = 'Strict'
 
 
 # Application definition
