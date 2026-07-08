@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from .managers import CustomUserManager
@@ -15,11 +16,6 @@ class CustomUser(AbstractUser):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
-        if self.groups.filter(name='Patient').exists() and self.groups.filter(name='Doctor').exists():
-            raise ValidationError(_('A user cannot be both a patient and a doctor.'))
-
-        if self.groups.count() == 0:
-            raise ValidationError(_('A user must belong to at least one group (Patient or Doctor).'))
     
     # role helpers
     

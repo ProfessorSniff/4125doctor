@@ -24,6 +24,7 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.homepage, name='homepage'),
 
     # Dashboards
     path('patient/dashboard/', views.dashboard_patient, name='dashboard_patient'),

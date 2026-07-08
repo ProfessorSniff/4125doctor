@@ -9,6 +9,14 @@ from .forms import AppointmentForm, PatientAppointmentForm, MedicalRecordForm
 def is_doctor(user):
     return user.groups.filter(name='Doctor').exists()
 
+
+def homepage(request):
+    if request.user.is_authenticated:
+        if request.user.groups.filter(name='Doctor').exists():
+            return redirect('dashboard_doctor')
+        return redirect('dashboard_patient')
+    return redirect('login')
+
 # read
 
 @login_required

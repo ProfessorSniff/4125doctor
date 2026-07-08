@@ -127,3 +127,8 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 STATICFILES_DIRS = [
     BASE_DIR / "doctors_office_4125/static"
 ]
+
+# login redirect
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/'
