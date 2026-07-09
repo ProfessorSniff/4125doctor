@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for record in doctor_medical_records %}
+        {% for record in patient_medical_records %}
         <tr>
             <td>{{ record.patient.display_name }}</td>
             <td>{{ record.record|truncatewords:20 }}</td>
