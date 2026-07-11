@@ -110,6 +110,9 @@ def update_appointment(request, appointment_id):
 def update_medical_record(request, record_id):
     record = get_object_or_404(MedicalRecord, id=record_id)
     if request.method != 'POST':
+        record = MedicalRecordForm(instance=record)
+        if record.doctor != request.user:
+            return redirect('unauthorized')
         form = MedicalRecordForm(instance=record)
     else:
         form = MedicalRecordForm(request.POST, instance=record)
