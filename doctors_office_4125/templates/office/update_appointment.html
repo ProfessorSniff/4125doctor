@@ -5,7 +5,23 @@
 {% block content %}
     <h2>Update Appointment for {{ appointment.patient.username }}</h2>
     
-    <form method="POST">
+    {% if appointment.attachment %}
+    <section>
+        <h4>Current Attachment</h4>
+        <p>
+            <a href="{{ appointment.attachment.url }}" download>Download: {{ appointment.attachment.name }}</a>
+            <form method="post" action="{% url 'delete_appointment_attachment' appointment.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('Delete this attachment?');">Delete</button>
+            </form>
+        </p>
+        <p>
+            Size: {{ appointment.attachment.size|filesizeformat }}
+        </p>
+    </section>
+    {% endif %}
+    
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Update</button>

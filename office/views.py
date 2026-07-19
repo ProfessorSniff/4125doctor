@@ -53,7 +53,7 @@ def book_appointment(request):
     if request.method != 'POST':
         form = PatientAppointmentForm()
     else: # submitted form
-        form = PatientAppointmentForm(request.POST)
+        form = PatientAppointmentForm(request.POST, request.FILES)
         if form.is_valid():
             appointment = form.save(commit=False) # modify without really saving
             appointment.patient = request.user
@@ -68,7 +68,7 @@ def create_appointment(request):
     if request.method != 'POST':
         form = AppointmentForm()
     else: # submitted form
-        form = AppointmentForm(request.POST)
+        form = AppointmentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('dashboard_doctor')
@@ -98,12 +98,27 @@ def update_appointment(request, appointment_id):
     if request.method != 'POST':
         form = AppointmentForm(instance=appointment)
     else: # submitted form
-        form = AppointmentForm(request.POST, instance=appointment)
+        form = AppointmentForm(request.POST, request.FILES, instance=appointment)
         if form.is_valid():
             form.save()
             return redirect('dashboard_doctor')
     
     return render(request, 'office/update_appointment.html', {'form': form, 'appointment': appointment})
+
+@login_required
+@user_passes_test(is_doctor, login_url='/unauthorized/')
+def delete_appointment_attachment(request, appointment_id):
+    if request.method != 'POST':
+        return redirect('dashboard_doctor')
+    
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    
+    if appointment.attachment:
+        appointment.attachment.delete()
+        appointment.attachment = None
+        appointment.save()
+    
+    return redirect('update_appointment', appointment_id=appointment_id)
 
 @login_required
 @user_passes_test(is_doctor, login_url='/unauthorized/')

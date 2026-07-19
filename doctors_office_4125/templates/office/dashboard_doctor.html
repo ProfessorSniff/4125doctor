@@ -12,7 +12,7 @@
     </div>
 
     <h3>Appointments (Assigned to Me)</h3>
-    {% include 'office/_appointments_table.html' with appointments=doctor_appointments show_patient=True show_doctor=False show_actions=True empty_message='No appointments assigned to you.' %}
+    {% include 'office/_appointments_table.html' with appointments=doctor_appointments show_patient=True show_doctor=False show_attachment=True show_actions=True empty_message='No appointments assigned to you.' %}
 
     <h3>Records (Written by Me)</h3>
     <!-- {% for record in doctor_medical_records %}

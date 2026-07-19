@@ -43,6 +43,12 @@ urlpatterns = [
         name='update_appointment'
     ),
 
+    path(
+        'appointments/<int:appointment_id>/attachment/delete/',
+        views.delete_appointment_attachment,
+        name='delete_appointment_attachment'
+    ),
+
     # Medical Records
     path(
         'medical-records/create/',
@@ -57,3 +63,10 @@ urlpatterns = [
     ),
     path("accounts/", include("django.contrib.auth.urls")),
 ]
+
+# Serve media files in development
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

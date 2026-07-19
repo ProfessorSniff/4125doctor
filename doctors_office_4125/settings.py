@@ -133,6 +133,10 @@ STATICFILES_DIRS = [
     BASE_DIR / "doctors_office_4125/static"
 ]
 
+# Media files (User uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # login redirect
 LOGIN_REDIRECT_URL = '/'
 

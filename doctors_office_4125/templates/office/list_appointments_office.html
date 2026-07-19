@@ -5,5 +5,5 @@
 {% block content %}
     <h2>All Clinic Appointments</h2>
 
-    {% include 'office/_appointments_table.html' with appointments=appointments show_patient=True show_doctor=True show_actions=True empty_message='No appointments found in the system.' %}
+    {% include 'office/_appointments_table.html' with appointments=appointments show_patient=True show_doctor=True show_attachment=True show_actions=True empty_message='No appointments found in the system.' %}
 {% endblock content %}

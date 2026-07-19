@@ -2,6 +2,25 @@ from django.db import models
 from django.db.models import Q
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import FileExtensionValidator
+import os
+
+APPOINTMENT_ALLOWED_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'tiff']
+APPOINTMENT_MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+def validate_appointment_attachment(file):
+    if file.size > APPOINTMENT_MAX_FILE_SIZE:
+        raise models.ValidationError(
+            _('Max size: 10MB. Current size: %(size)s MB') % 
+            {'size': round(file.size / (1024 * 1024), 2)}
+        )
+    
+    ext = os.path.splitext(file.name)[1][1:].lower()
+    if ext not in APPOINTMENT_ALLOWED_EXTENSIONS:
+        raise models.ValidationError(
+            _('File type ".%(ext)s" is not allowed. Allowed types: %(allowed)s') % 
+            {'ext': ext, 'allowed': ', '.join(APPOINTMENT_ALLOWED_EXTENSIONS)}
+        )
 
 # Create your models here.
 
@@ -10,6 +29,13 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='doctor_appointments', limit_choices_to=Q(groups__name='Doctor'), blank=True, null=True)
     date_time = models.DateTimeField(blank=True, null=True)
     reason = models.TextField(blank=True)
+    attachment = models.FileField(
+        upload_to='appointments/',
+        blank=True,
+        null=True,
+        validators=[validate_appointment_attachment],
+        help_text=_('Allowed file types: PDF, JPG, PNG, WebP, GIF, BMP, TIFF (Max 10MB)')
+    )
     
     STATUS_CHOICES = [
         ('pending', _('Pending')),

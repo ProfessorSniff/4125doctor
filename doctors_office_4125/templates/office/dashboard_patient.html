@@ -10,7 +10,7 @@
     <hr>
 
     <h3>My Appointments</h3>
-    {% include 'office/_appointments_table.html' with appointments=patient_appointments show_patient=False show_doctor=True show_actions=False empty_message='You have no appointments scheduled.' %}
+    {% include 'office/_appointments_table.html' with appointments=patient_appointments show_patient=False show_doctor=True show_attachment=True show_actions=False empty_message='You have no appointments scheduled.' %}
 
     <h3>My Medical Records</h3>
     <table>

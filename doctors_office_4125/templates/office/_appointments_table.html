@@ -5,6 +5,7 @@
             {% if show_doctor %}<th>Doctor</th>{% endif %}
             <th>Date & Time</th>
             <th>Status</th>
+            {% if show_attachment %}<th>Attachment</th>{% endif %}
             {% if show_actions %}<th>Actions</th>{% endif %}
         </tr>
     </thead>
@@ -17,6 +18,15 @@
             {% endif %}
             <td>{{ appt.date_time }}</td>
             <td>{{ appt.status }}</td>
+            {% if show_attachment %}
+            <td>
+                {% if appt.attachment %}
+                    <a href="{{ appt.attachment.url }}" download>Download</a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            {% endif %}
             {% if show_actions %}
             <td>
                 <a href="{% url 'update_appointment' appt.id %}">Edit</a>
@@ -25,7 +35,7 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="{% if show_patient and show_doctor %}5{% elif show_patient or show_doctor %}4{% else %}3{% endif %}">{{ empty_message }}</td>
+            <td colspan="{% if show_patient and show_doctor and show_attachment %}6{% elif show_patient and show_doctor %}5{% elif show_patient and show_attachment %}5{% elif show_doctor and show_attachment %}5{% else %}4{% endif %}">{{ empty_message }}</td>
         </tr>
         {% endfor %}
     </tbody>
