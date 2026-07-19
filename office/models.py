@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import FileExtensionValidator
+import time
 import os
 
 APPOINTMENT_ALLOWED_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'tiff']
@@ -22,6 +23,15 @@ def validate_appointment_attachment(file):
             {'ext': ext, 'allowed': ', '.join(APPOINTMENT_ALLOWED_EXTENSIONS)}
         )
 
+
+def appointment_attachment_upload_to(instance, filename):
+    ext = os.path.splitext(filename)[1].lower() # built on the premise that the extension given by os.path is safe
+    random_name = format(time.time_ns(), 'x')
+    path = f"appointments/{random_name}{ext}"
+    if os.path.exists(path):
+        raise models.ValidationError(_('You are either uploading too fast or very unlucky. Please try again.'))
+    return path
+
 # Create your models here.
 
 class Appointment(models.Model):
@@ -30,7 +40,7 @@ class Appointment(models.Model):
     date_time = models.DateTimeField(blank=True, null=True)
     reason = models.TextField(blank=True)
     attachment = models.FileField(
-        upload_to='appointments/',
+        upload_to=appointment_attachment_upload_to,
         blank=True,
         null=True,
         validators=[validate_appointment_attachment],
