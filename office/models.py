@@ -46,6 +46,8 @@ class Appointment(models.Model):
         validators=[validate_appointment_attachment],
         help_text=_('Allowed file types: PDF, JPG, PNG, WebP, GIF, BMP, TIFF (Max 10MB)')
     )
+    # when the most recent reminder was sent
+    last_reminder_sent_at = models.DateTimeField(blank=True, null=True)
     
     STATUS_CHOICES = [
         ('pending', _('Pending')),

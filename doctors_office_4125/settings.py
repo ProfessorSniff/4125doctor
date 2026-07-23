@@ -141,3 +141,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
+
+# reminder offsets 
+# hours before appointment when notifications are sent
+APPOINTMENT_REMINDER_OFFSETS = [168, 24]
+
+
+# send gid
+SENDGRID_API_KEY = ''
+#SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', None)
+
+SENDGRID_FROM_ADDRESS = 'test@localhost'
+#SENDGRID_FROM_ADDRESS = os.environ.get('SENDGRID_FROM_ADDRESS', 'test@localhost')
