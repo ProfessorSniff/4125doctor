@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.utils import timezone
 import sendgrid
-from sendgriud.helpers.mail import Mail, Email, To, Content
+from sendgrid.helpers.mail import Mail, Email, To, Content
 
 def send_appointment_reminder(appointment, offset_hours, dry_run=False):
     patient = appointment.patient

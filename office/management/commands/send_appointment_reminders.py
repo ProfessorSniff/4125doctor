@@ -24,10 +24,10 @@ class Command(BaseCommand):
             
             qs = Appointment.objects.filter(
                 date_time__lte=now + timedelta(hours=offset),
-                status='confirmed',
-                #last_reminder_sent_at__lt=now - timedelta(hours=offset)   
-                # OR last reminder is null
-                Q(last_reminder_sent_at__lt=now = timedelta(hours=offset)) | Q(last_reminder_sent_at__isnull=True)
+                status='confirmed'
+            ).filter(
+                Q(last_reminder_sent_at__lt=now - timedelta(hours=offset)) | 
+                Q(last_reminder_sent_at__isnull=True)
             )
             
             for appointment in qs:
@@ -37,4 +37,4 @@ class Command(BaseCommand):
                         appointment.last_reminder_sent_at = now
                         appointment.save(update_fields=['last_reminder_sent_at'])
             
-        self.stdout.write(self.style.SUCCESS("sent {sent_count} notifications"))
+        self.stdout.write(self.style.SUCCESS(f"sent {sent_count} notifications"))
