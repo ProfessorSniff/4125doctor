@@ -13,9 +13,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--dry-run', action='store_true', help='do not actually send appointment reminders')
+        parser.add_argument('--verbose', action='store_true', help='print appointment reminders sent')
 
     def handle(self, *args, **options):
         dry_run = options.get('dry_run', False)
+        verbose = options.get('verbose', False)
         now = timezone.now()
         offsets = getattr(settings, 'APPOINTMENT_REMINDER_OFFSETS', [168, 24])
 
@@ -31,7 +33,7 @@ class Command(BaseCommand):
             )
             
             for appointment in qs:
-                if send_appointment_reminder(appointment, offset, dry_run=dry_run):
+                if send_appointment_reminder(self, appointment, offset, dry_run=dry_run, verbose=verbose):
                     sent_count += 1
                     if not dry_run:
                         appointment.last_reminder_sent_at = now

@@ -1,12 +1,15 @@
+from datetime import timedelta
 from django.conf import settings
 from django.utils import timezone
 import sendgrid
 from sendgrid.helpers.mail import Mail, Email, To, Content
 
-def send_appointment_reminder(appointment, offset_hours, dry_run=False):
+def send_appointment_reminder(self, appointment, offset_hours, dry_run=False, verbose=False):
     patient = appointment.patient
     to_email = getattr(patient, 'email', None)
     if not to_email:
+        if verbose:
+            self.stdout.write(self.style.NOTICE(f"No email for user {patient.id}:{patient.display_name}"))
         return False
 
     appt_time = appointment.date_time
@@ -16,11 +19,14 @@ def send_appointment_reminder(appointment, offset_hours, dry_run=False):
         f"""
         Appointment for {patient.display_name}:
         
-        Date & Time: {appt_time.strftime('%F %R %Z')}
+        Date & Time: {timezone.localtime(appt_time).strftime('%F %R %Z')}
         Doctor: {doctor_name}
         """
         
     )
+    
+    if verbose:
+        self.stdout.write(f"Sending appointment '{appointment.id}': {{time='{timezone.localtime(appt_time).strftime('%F %R %Z')}', patient='{patient.display_name}' email='{to_email}', doctor='{doctor_name}', in='{round((appt_time-timezone.now()) / timedelta(hours=1), 2)}h', offset='{offset_hours}h'}}")
 
     if dry_run:
         return True
