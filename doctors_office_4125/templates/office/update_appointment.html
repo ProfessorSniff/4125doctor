@@ -10,7 +10,7 @@
         <h4>Current Attachment</h4>
         <p>
             <a href="{{ appointment.attachment.url }}" download>Download: {{ appointment.attachment.name }}</a>
-            <form method="post" action="{% url 'delete_appointment_attachment' appointment.id %}" style="display:inline;" nonce="{{ csp_nonce }}">
+            <form method="post" action="{% url 'delete_appointment_attachment' appointment.id %}" class="display-inline">
                 {% csrf_token %}
                 <button type="submit" onclick="return confirm('Delete this attachment?');">Delete</button>
             </form>
