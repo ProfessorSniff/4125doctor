@@ -1,0 +1,20 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/4125doctor
+ExecStart=/opt/4125doctor/.venv/bin/gunicorn doctors_office_4125.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target
