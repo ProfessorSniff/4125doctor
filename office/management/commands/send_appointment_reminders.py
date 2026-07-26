@@ -26,7 +26,8 @@ class Command(BaseCommand):
             
             qs = Appointment.objects.filter(
                 date_time__lte=now + timedelta(hours=offset),
-                status='confirmed'
+                status='confirmed',
+                date_time__gt=now,
             ).filter(
                 Q(last_reminder_sent_at__lt=now - timedelta(hours=offset)) | 
                 Q(last_reminder_sent_at__isnull=True)
