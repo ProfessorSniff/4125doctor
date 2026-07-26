@@ -161,7 +161,7 @@ LOGOUT_REDIRECT_URL = '/'
 SECURE_CSP = {
     "default-src": [CSP.SELF],
     "img-src": ["data:", CSP.SELF],
-    "style-src": [CSP.SELF, "https://cdn.jsdelivr.net"],
+    "style-src": [CSP.SELF, CSP.NONCE, "https://cdn.jsdelivr.net"],
     "script-src": [CSP.NONE], # To be removed if we include any scripts
     "frame-src": [CSP.NONE],
 }
