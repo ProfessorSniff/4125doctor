@@ -57,6 +57,12 @@ class Appointment(models.Model):
     ]
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='pending')
     
+    class Meta:
+        indexes = [
+            # Less server load on notification job
+            models.Index(fields=['status', 'date_time', 'last_reminder_sent_at']),
+        ]
+        
     def __str__(self):
         return f"{self.patient.display_name} {_("with")} {self.doctor.display_name or _('(no doctor assigned)')}  {self.date_time.strftime('%F %T')}: {self.status}"
     
