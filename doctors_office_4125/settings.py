@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from django.utils.csp import CSP
 from pathlib import Path
 import os
+import urllib.request
 
 
 def access_secret_version(project_id: str, secret_id: str, version_id: str = "latest") -> str:
@@ -65,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csp.ContentSecurityPolicyMiddleware',
 ]
 
 ROOT_URLCONF = 'doctors_office_4125.urls'
@@ -152,6 +155,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
+
+# csp headers
+
+SECURE_CSP = {
+    "default-src": [CSP.SELF],
+    "img-src": ["data:", CSP.SELF],
+    "style-src": [CSP.SELF, "https://cdn.jsdelivr.net"],
+    "script-src": [CSP.NONE], # To be removed if we include any scripts
+    "frame-src": [CSP.NONE],
+}
+
 
 # reminder offsets 
 # hours before appointment when notifications are sent
