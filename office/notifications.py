@@ -39,9 +39,10 @@ def send_appointment_reminder(self, appointment, offset_hours, dry_run=False, ve
         if response.status_code == 202:
             return True
         else:
-            print(response.status_code)
-            print(response.headers)
+            self.stdout.write(self.style.ERROR(response.status_code))
+            self.stdout.write(self.style.ERROR(response.headers))
             response.raise_for_status()
             return False
-    except Exception:
+    except Exception as e:
+        self.stdout.write(self.style.ERROR(f"exception: {e}"))
         return False
