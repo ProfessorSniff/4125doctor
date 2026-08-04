@@ -7,7 +7,7 @@ Doctor's Office Appointment System
 
 Manages appointments for a doctor's office. Handles the roles of patients and doctors. 
 Appointments can be viewed and requested by patients, and doctors can create and modify (update, confirm/cancel) appointments.
-Medical records (visit notes) can be written and modified by doctors, and viewed by patients. The system also allows for the management of patient and doctor information.
+Medical records (visit notes) can be written and modified by doctors, and viewed by patients.
 
 Setup
 -----
@@ -38,5 +38,5 @@ Depolyment:
 - Run the Django self-check: ``python3 manage.py check --deploy``
 - Create a superuser: ``python3 manage.py createsuperuser``
 - Prepare static files: ``python3 manage.py collectstatic``
-- Create (and start) services for the WSGI and/or web servers (e.g. systemd)
+- Create (and start) services for the notification service, WSGI server, and/or web server (e.g. systemd)
 - Verify functionality and create appropriate users
