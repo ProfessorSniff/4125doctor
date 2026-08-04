@@ -26,10 +26,10 @@ def validate_appointment_attachment(file):
 
 def appointment_attachment_upload_to(instance, filename):
     ext = os.path.splitext(filename)[1].lower() # built on the premise that the extension given by os.path is safe
-    random_name = format(time.time_ns(), 'x')
+    random_name = secrets.token_urlsafe() # os crng of entropy determined by python to be adequqate (attow 32 bytes)
     path = f"appointments/{random_name}{ext}"
     if os.path.exists(path):
-        raise models.ValidationError(_('You are either uploading too fast or very unlucky. Please try again.'))
+        raise models.ValidationError(_('You are very unlucky (one in 115 quattuorvigintillion chance). Please try again.'))
     return path
 
 # Create your models here.
