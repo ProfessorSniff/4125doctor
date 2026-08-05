@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 
 from .models import Appointment, MedicalRecord
 from .forms import AppointmentForm, PatientAppointmentForm, MedicalRecordForm
@@ -125,7 +126,7 @@ def delete_appointment_attachment(request, appointment_id):
 def update_medical_record(request, record_id):
     record = get_object_or_404(MedicalRecord, id=record_id)
     if record.doctor != request.user:
-        return redirect('unauthorized')
+        raise PermissionDenied()
     if request.method != 'POST':        
         form = MedicalRecordForm(instance=record)
     else:
