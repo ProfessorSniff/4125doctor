@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import FileExtensionValidator
-import time
+import secrets
 import os
 
 APPOINTMENT_ALLOWED_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'tiff']
